@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>برنامه دفاع‌های ارشد و دکتری مهندسی شیمی - دانشگاه شهید باهنر کرمان</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --success: #27ae60;
+            --warning: #f39c12;
+            --info: #17a2b8;
+            --text: #333;
+            --text-light: #7f8c8d;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Vazir', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: var(--text);
+            line-height: 1.6;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        header {
+            background: linear-gradient(120deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            margin-bottom: 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M0,0 L100,0 L100,100 Z" fill="rgba(255,255,255,0.1)"/></svg>');
+            background-size: cover;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            position: relative;
+        }
+
+        .university-info {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 5px;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+            gap: 15px;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+        }
+
+        .search-box, .filter-box {
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .search-box input, .filter-box select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid var(--light);
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .search-box input:focus, .filter-box select:focus {
+            border-color: var(--secondary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+        }
+
+        .table-container {
+            background: white;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            margin-bottom: 30px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background: linear-gradient(120deg, var(--primary), var(--secondary));
+            color: white;
+        }
+
+        th {
+            padding: 18px 15px;
+            text-align: center;
+            font-weight: 600;
+            position: relative;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        th:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        th:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 20%;
+            height: 60%;
+            width: 1px;
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        td {
+            padding: 15px;
+            text-align: center;
+            border-bottom: 1px solid #eee;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+
+        tr:hover {
+            background-color: #e3f2fd;
+            transform: translateY(-2px);
+            transition: var(--transition);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .degree-badge {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .msc {
+            background: linear-gradient(135deg, #2ecc71, #27ae60);
+            color: white;
+        }
+
+        .phd {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: white;
+        }
+
+        .professor {
+            display: inline-block;
+            background: #e3f2fd;
+            padding: 5px 10px;
+            border-radius: 5px;
+            margin: 2px;
+            font-size: 0.9rem;
+        }
+
+        .location {
+            color: var(--secondary);
+            font-weight: 600;
+        }
+
+        .time {
+            background: #fff3cd;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-weight: 600;
+            color: #856404;
+        }
+
+        .title {
+            text-align: right;
+            line-height: 1.5;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: var(--text-light);
+            font-size: 0.9rem;
+            background: white;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+        }
+
+        @media (max-width: 1200px) {
+            .table-container {
+                overflow-x: auto;
+            }
+            
+            table {
+                min-width: 1000px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .controls {
+                flex-direction: column;
+            }
+            
+            .search-box, .filter-box {
+                width: 100%;
+            }
+            
+            th, td {
+                padding: 12px 8px;
+            }
+        }
+
+        /* انیمیشن برای ردیف‌های جدول */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        tbody tr {
+            animation: fadeIn 0.5s ease forwards;
+        }
+        
+        .sort-indicator {
+            margin-right: 5px;
+            font-size: 0.8em;
+        }
+        
+        .new-badge {
+            background: #e74c3c;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.7rem;
+            margin-right: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-graduation-cap"></i> برنامه دفاع‌های ارشد و دکتری</h1>
+            <div class="university-info">بخش مهندسی شیمی</div>
+            <div class="university-info">دانشگاه شهید باهنر کرمان</div>
+        </header>
+        
+        <div class="controls">
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="جستجو در جدول...">
+            </div>
+            <div class="filter-box">
+                <select id="degreeFilter">
+                    <option value="all">همه مقاطع</option>
+                    <option value="ارشد">کارشناسی ارشد</option>
+                    <option value="دکتری">دکتری</option>
+                </select>
+            </div>
+        </div>
+        
+        <div class="table-container">
+            <table id="defenseTable">
+                <thead>
+                    <tr>
+                        <th>ردیف</th>
+                        <th>نام دانشجو</th>
+                        <th>مقطع</th>
+                        <th>اساتید راهنما</th>
+                        <th>اساتید مشاور</th>
+                        <th data-sort="date" class="sortable">تاریخ دفاع <span class="sort-indicator">▼</span></th>
+                        <th data-sort="time" class="sortable">ساعت</th>
+                        <th>محل دفاع</th>
+                        <th>عنوان پایان‌نامه</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody">
+                    <!-- داده‌ها با جاوااسکریپت اضافه خواهند شد -->
+                </tbody>
+            </table>
+        </div>
+        
+        <footer>
+            <p>دانشگاه شهید باهنر کرمان - دانشکده مهندسی - بخش مهندسی شیمی</p>
+            <p>تلفن: ۳۲۱۱۸۲۹۸-۰۳۴ | ایمیل: chemistry@uk.ac.ir</p>
+            <p>© ۱۴۰۴ - تمامی حقوق محفوظ است</p>
+        </footer>
+    </div>
+
+    <script>
+        // داده‌های دفاع‌ها
+        const defenses = [
+            {
+                id: 1,
+                name: "رضا محمدی",
+                degree: "ارشد",
+                supervisor: "دکتر علی احمدی",
+                advisors: ["دکتر مریم حسینی", "دکتر محسن کریمی"],
+                date: "۱۴۰۴/۰۶/۲۰",
+                day: "دوشنبه",
+                time: "۱۰:۰۰",
+                location: "سالن کنفرانس دانشکده فنی",
+                title: "بررسی روش‌های نوین در تصفیه پساب صنایع پتروشیمی"
+            },
+            {
+                id: 2,
+                name: "فاطمه زارعی",
+                degree: "دکتری",
+                supervisor: "دکتر سعید رضایی",
+                advisors: ["دکتر ناصر قاسمی"],
+                date: "۱۴۰۴/۰۶/۲۱",
+                day: "سه‌شنبه",
+                time: "۱۴:۳۰",
+                location: "آمفی‌تئاتر مرکزی دانشگاه",
+                title: "طراحی و بهینه‌سازی کاتالیست‌های نانو برای فرآیندهای پالایشگاهی"
+            },
+            {
+                id: 3,
+                name: "محمد جعفری",
+                degree: "ارشد",
+                supervisor: "دکتر مریم حسینی",
+                advisors: ["دکتر علی احمدی"],
+                date: "۱۴۰۴/۰۶/۲۲",
+                day: "چهارشنبه",
+                time: "۰۹:۰۰",
+                location: "سالن کنفرانس دانشکده فنی",
+                title: "مدل‌سازی و شبیه‌سازی راکتورهای بستر سیال"
+            },
+            {
+                id: 4,
+                name: "زهرا امینی",
+                degree: "دکتری",
+                supervisor: "دکتر محسن کریمی",
+                advisors: ["دکتر سعید رضایی", "دکتر ناصر قاسمی"],
+                date: "۱۴۰۴/۰۶/۲۳",
+                day: "پنجشنبه",
+                time: "۱۱:۰۰",
+                location: "آمفی‌تئاتر مرکزی دانشگاه",
+                title: "بررسی خواص ترمودینامیکی مخلوط‌های چندجزئی در شرایط فوق‌بحرانی"
+            },
+            {
+                id: 5,
+                name: "امیرحسین نظری",
+                degree: "ارشد",
+                supervisor: "دکتر ناصر قاسمی",
+                advisors: ["دکتر مریم حسینی"],
+                date: "۱۴۰۴/۰۶/۲۵",
+                day: "شنبه",
+                time: "۱۵:۳۰",
+                location: "سالن کنفرانس دانشکده فنی",
+                title: "بهینه‌سازی مصرف انرژی در واحدهای تقطیر"
+            },
+            {
+                id: 6,
+                name: "سارا رضایی",
+                degree: "دکتری",
+                supervisor: "دکتر علی احمدی",
+                advisors: ["دکتر محسن کریمی", "دکتر سعید رضایی"],
+                date: "۱۴۰۴/۰۶/۲۱",
+                day: "سه‌شنبه",
+                time: "۱۳:۰۰",
+                location: "سالن کنفرانس دانشکده فنی",
+                title: "سنتز و ارزیابی نانوجاذب‌های جدید برای حذف فلزات سنگین از آب"
+            },
+            {
+                id: 7,
+                name: "محمد کریمی",
+                degree: "ارشد",
+                supervisor: "دکتر سعید رضایی",
+                advisors: ["دکتر ناصر قاسمی"],
+                date: "۱۴۰۴/۰۷/۱۰",
+                day: "چهارشنبه",
+                time: "۱۱:۳۰",
+                location: "سالن کنفرانس دانشکده فنی",
+                title: "بررسی پارامترهای مؤثر در فرآیندهای جداسازی غشایی"
+            },
+            {
+                id: 8,
+                name: "نرگس احمدی",
+                degree: "دکتری",
+                supervisor: "دکتر مریم حسینی",
+                advisors: ["دکتر علی احمدی", "دکتر محسن کریمی"],
+                date: "۱۴۰۴/۰۵/۱۵",
+                day: "جمعه",
+                time: "۱۰:۳۰",
+                location: "آمفی‌تئاتر مرکزی دانشگاه",
+                title: "طراحی و ساخت نانوکامپوزیت‌های هوشمند برای کاربردهای صنعتی"
+            },
+            {
+                id: 9,
+                name: "علی رضوی",
+                degree: "ارشد",
+                supervisor: "دکتر محسن کریمی",
+                advisors: ["دکتر سعید رضایی"],
+                date: "۱۴۰۴/۰۶/۲۲",
+                day: "چهارشنبه",
+                time: "۱۴:۰۰",
+                location: "سالن کنفرانس دانشکده فنی",
+                title: "بررسی کارایی کاتالیست‌های جدید در فرآیندهای پتروشیمی"
+            },
+            {
+                id: 10,
+                name: "مریم موسوی",
+                degree: "دکتری",
+                supervisor: "دکتر ناصر قاسمی",
+                advisors: ["دکتر علی احمدی", "دکتر مریم حسینی"],
+                date: "۱۴۰۴/۰۷/۰۵",
+                day: "پنجشنبه",
+                time: "۰۹:۳۰",
+                location: "آمفی‌تئاتر مرکزی دانشگاه",
+                title: "شبیه‌سازی عددی فرآیندهای انتقال جرم و حرارت در سیستم‌های چند فازی"
+            }
+        ];
+
+        // تبدیل اعداد فارسی به انگلیسی
+        function convertPersianToEnglish(str) {
+            const persianNumbers = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
+            const englishNumbers = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+            
+            return str.replace(/[۰-۹]/g, function(c) {
+                return englishNumbers[persianNumbers.indexOf(c)];
+            });
+        }
+
+        // تبدیل تاریخ به فرمت عددی برای مقایسه
+        function dateToNumber(dateStr) {
+            const englishDate = convertPersianToEnglish(dateStr);
+            const parts = englishDate.split('/');
+            return parseInt(parts[0] + parts[1] + parts[2]);
+        }
+
+        // تبدیل زمان به فرمت عددی برای مقایسه
+        function timeToNumber(timeStr) {
+            const englishTime = convertPersianToEnglish(timeStr);
+            return parseInt(englishTime.replace(':', ''));
+        }
+
+        // تابع مقایسه برای مرتب‌سازی - تاریخ‌های جدیدتر اول
+        function compareDefenses(a, b) {
+            // تبدیل تاریخ به عدد
+            const dateNumA = dateToNumber(a.date);
+            const dateNumB = dateToNumber(b.date);
+            
+            // اولویت با تاریخ‌های جدیدتر (اعداد بزرگتر)
+            if (dateNumA !== dateNumB) {
+                return dateNumB - dateNumA;
+            }
+            
+            // اگر تاریخ یکسان است، اولویت با زمان‌های زودتر (اعداد کوچکتر)
+            const timeNumA = timeToNumber(a.time);
+            const timeNumB = timeToNumber(b.time);
+            return timeNumA - timeNumB;
+        }
+
+        // مرتب‌سازی داده‌ها بر اساس تاریخ و زمان (جدیدترین‌ها اول)
+        defenses.sort(compareDefenses);
+
+        // تابع برای نمایش داده‌ها در جدول
+        function renderTable(data) {
+            const tableBody = document.getElementById('tableBody');
+            tableBody.innerHTML = '';
+            
+            data.forEach((defense, index) => {
+                const row = document.createElement('tr');
+                
+                // ایجاد انیمیشن برای هر ردیف
+                row.style.animationDelay = `${index * 0.1}s`;
+                
+                row.innerHTML = `
+                    <td>${index + 1}</td>
+                    <td>${defense.name}</td>
+                    <td><span class="degree-badge ${defense.degree === 'ارشد' ? 'msc' : 'phd'}">${defense.degree}</span></td>
+                    <td><span class="professor">${defense.supervisor}</span></td>
+                    <td>
+                        ${defense.advisors.map(advisor => `<span class="professor">${advisor}</span>`).join('')}
+                    </td>
+                    <td>${defense.day} ${defense.date}</td>
+                    <td><span class="time">${defense.time}</span></td>
+                    <td><span class="location">${defense.location}</span></td>
+                    <td class="title">${defense.title}</td>
+                `;
+                
+                tableBody.appendChild(row);
+            });
+        }
+
+        // نمایش اولیه داده‌ها
+        renderTable(defenses);
+
+        // فیلتر کردن و جستجو در جدول
+        document.getElementById('searchInput').addEventListener('keyup', function() {
+            const filter = this.value.toLowerCase();
+            const table = document.getElementById('defenseTable');
+            const tr = table.getElementsByTagName('tr');
+            
+            // از ردیف ۱ شروع می‌کنیم چون ردیف ۰ هدر است
+            for (let i = 1; i < tr.length; i++) {
+                const td = tr[i].getElementsByTagName('td');
+                let show = false;
+                
+                for (let j = 0; j < td.length; j++) {
+                    if (td[j]) {
+                        if (td[j].textContent.toLowerCase().indexOf(filter) > -1) {
+                            show = true;
+                            break;
+                        }
+                    }
+                }
+                
+                tr[i].style.display = show ? '' : 'none';
+            }
+        });
+        
+        // فیلتر بر اساس مقطع تحصیلی
+        document.getElementById('degreeFilter').addEventListener('change', function() {
+            const filter = this.value;
+            
+            if (filter === 'all') {
+                renderTable(defenses);
+            } else {
+                const filteredData = defenses.filter(defense => defense.degree === filter);
+                renderTable(filteredData);
+            }
+        });
+
+        // مرتب‌سازی بر اساس تاریخ با کلیک روی هدر
+        document.querySelector('th[data-sort="date"]').addEventListener('click', function() {
+            defenses.sort(compareDefenses);
+            renderTable(defenses);
+        });
+
+        // مرتب‌سازی بر اساس زمان با کلیک روی هدر زمان
+        document.querySelector('th[data-sort="time"]').addEventListener('click', function() {
+            defenses.sort((a, b) => {
+                const timeNumA = timeToNumber(a.time);
+                const timeNumB = timeToNumber(b.time);
+                return timeNumA - timeNumB; // زمان‌های زودتر اول
+            });
+            
+            renderTable(defenses);
+        });
+    </script>
+</body>
+</html>
